@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/sreejithsga/Test/_apis/build/status/sreejithuvt.BeautifulRestApi?branchName=master)](https://dev.azure.com/sreejithsga/Test/_build/latest?definitionId=3&branchName=master)
+
 # Beautiful REST API design with ASP.NET Core and Ion
 
 Hello! :wave: This repository contains an example API written in C# and ASP.NET Core 1.1. It uses the [Ion hypermedia specification][ion] as a starting point to model a consistent, clean REST API that embraces HATEOAS.
