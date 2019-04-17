@@ -6,98 +6,12 @@
 trigger:
 - master
 
-
+pool:
+  vmImage: 'Ubuntu-16.04'
 
 variables:
   buildConfiguration: 'Release'
 
-
-
-
-pool:
-  name: Hosted Ubuntu 1604
-#Your build pipeline references an undefined variable named ‘BuildConfiguration’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
-#Your build pipeline references an undefined variable named ‘BuildConfiguration’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
-#Your build pipeline references an undefined variable named ‘BuildConfiguration’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
-#Your build pipeline references an undefined variable named ‘BuildConfiguration’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
-
 steps:
-- task: AzureResourceGroupDeployment@2
-  displayName: 'Azure Deployment:Create Azure Container Registry'
-  inputs:
-    azureSubscription: 'sreeTestDotnet - Service Endpoint'
-    resourceGroupName: 'sreeTestDotnet-rg'
-    location: 'South Central US'
-    csmFile: '$(System.DefaultWorkingDirectory)/**/containerRegistry-template.json'
-    overrideParameters: '-registryName "sreeTestDotnetacr" -registryLocation "South Central US" -registrySku "Standard"'
-
-- task: DotNetCoreCLI@2
-  displayName: Restore
-  inputs:
-    command: restore
-    projects: '**/*.csproj'
-
-- task: DotNetCoreCLI@2
-  displayName: Build
-  inputs:
-    projects: '**/*.csproj'
-    arguments: '--configuration $(BuildConfiguration)'
-
-- task: DotNetCoreCLI@2
-  displayName: Test
-  inputs:
-    command: test
-    projects: '**/*UnitTests/*.csproj'
-    arguments: '--configuration $(BuildConfiguration)'
-
-- task: DotNetCoreCLI@2
-  displayName: 'Publish functional tests'
-  inputs:
-    command: publish
-    publishWebProjects: false
-    projects: '**/*FunctionalTests*.csproj'
-    arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/FunctionalTests'
-    zipAfterPublish: false
-    modifyOutputPath: false
-
-- task: CopyFiles@2
-  displayName: 'Copy runsettings file'
-  inputs:
-    Contents: '**/*.runsettings'
-    TargetFolder: '$(build.artifactstagingdirectory)/FunctionalTests'
-    flattenFolders: true
-
-- task: DotNetCoreCLI@2
-  displayName: 'Publish webapp'
-  inputs:
-    command: publish
-    arguments: '--configuration $(BuildConfiguration) --output $(System.DefaultWorkingDirectory)/PublishedWebApp'
-    zipAfterPublish: false
-
-- task: Docker@1
-  displayName: 'Build an image'
-  inputs:
-    azureSubscriptionEndpoint: 'sreeTestDotnet - Service Endpoint'
-    azureContainerRegistry: sreetestdotnetacr.azurecr.io
-    imageName: 'sreetestdotnet:$(Build.BuildId)'
-    useDefaultContext: false
-    buildContext: '$(System.DefaultWorkingDirectory)/PublishedWebApp'
-
-- task: Docker@1
-  displayName: 'Push an image'
-  inputs:
-    azureSubscriptionEndpoint: 'sreeTestDotnet - Service Endpoint'
-    azureContainerRegistry: '{"loginServer":"sreetestdotnetacr.azurecr.io", "id" : "/subscriptions/cf964586-8280-4bc5-a71f-fe1545601cd9/resourceGroups/sreeTestDotnet-rg/providers/Microsoft.ContainerRegistry/registries/sreeTestDotnetacr"}'
-    command: 'Push an image'
-    imageName: 'sreetestdotnet:$(Build.BuildId)'
-
-- task: CopyFiles@2
-  displayName: 'Copy ARM templates'
-  inputs:
-    SourceFolder: ArmTemplates
-    TargetFolder: '$(build.artifactstagingdirectory)'
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact'
-  inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)'
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
