@@ -82,14 +82,14 @@ namespace BeautifulRestApi
             {
                 Id = Guid.Parse("6f1e369b-29ce-4d43-b027-3756f03899a1"),
                 CreatedAt = DateTimeOffset.UtcNow,
-                Title = "Who is the coolest Avenger?"
+                Title = "Who is going to win the election?"
             }).Entity;
 
             var conv2 = context.Conversations.Add(new Models.ConversationEntity
             {
                 Id = Guid.Parse("2d555f8f-e2a2-461e-b756-1f6d0d254b46"),
                 CreatedAt = DateTimeOffset.UtcNow,
-                Title = "How do we defeat Thanos?!"
+                Title = "Who is Pappu?"
             }).Entity;
 
             context.Comments.Add(new Models.CommentEntity
@@ -97,7 +97,7 @@ namespace BeautifulRestApi
                 Id = Guid.Parse("653d061d-cdb9-423c-b03d-cd656ff567c7"),
                 CreatedAt = DateTimeOffset.UtcNow,
                 Conversation = conv1,
-                Body = "Iron Man of course"
+                Body = "Rahul Gandhi of course"
             });
 
             context.Comments.Add(new Models.CommentEntity
@@ -105,7 +105,7 @@ namespace BeautifulRestApi
                 Id = Guid.Parse("4bfba838-5872-46be-a2df-db6db8aa261f"),
                 CreatedAt = DateTimeOffset.UtcNow,
                 Conversation = conv2,
-                Body = "idk yet. something w/ the Infinity Stones?"
+                Body = "Manmohan Singh Of course"
             });
 
             context.SaveChanges();
