@@ -3,8 +3,8 @@
   inputs:
     ConnectedServiceName: 'Free Trial (cf964586-8280-4bc5-a71f-fe1545601cd9)'
     action: 'Create Or Update Resource Group'
-    resourceGroupName: 'sreetestdotnet-rg'
-    location: 'South Central US'
+    resourceGroupName: 'VstsRG-sreejithsga-e343'
+    location: 'South India'
     csmFile: '$(System.DefaultWorkingDirectory)/**/template.json'
     csmParametersFile: '$(System.DefaultWorkingDirectory)/**/parameters.json'
 # Build and test ASP.NET Core projects targeting .NET Core.
